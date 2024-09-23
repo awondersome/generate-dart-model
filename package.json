@@ -1,0 +1,63 @@
+{
+  "name": "generate-dart-model",
+  "displayName": "Generate Dart Model",
+  "description": "",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.93.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "hello-world-dart-generator.generateDartModel",
+        "title": "Generate Dart Model"
+      },
+      {
+        "command": "hello-world-dart-generator.generateJsonFile",
+        "title": "Generate JSON File"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "hello-world-dart-generator.generateDartModel",
+          "when": "explorerResourceIsFolder",
+          "group": "myDartGeneratorGroup"
+        },
+        {
+          "when": "explorerResourceIsFolder",
+          "command": "hello-world-dart-generator.generateJsonFile",
+          "group": "myDartGeneratorGroup"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/jsdom": "^21.1.7",
+    "@types/mocha": "^10.0.7",
+    "@types/node": "20.x",
+    "@types/vscode": "^1.93.0",
+    "@typescript-eslint/eslint-plugin": "^8.3.0",
+    "@typescript-eslint/parser": "^8.3.0",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.4.1",
+    "eslint": "^9.9.1",
+    "typescript": "^5.5.4"
+  },
+  "dependencies": {
+    "jsdom": "^25.0.0"
+  }
+}
