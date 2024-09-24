@@ -138,7 +138,7 @@ function generateDartClass(className: string, dataStructure: Record<string, any>
 		// 嵌套类传入的是level+1
 		if (item.level == level) {
 			if (item.type != 'Map<String, dynamic>' && item.type != 'List<dynamic>') {
-				content += `  ///${item.description}\n`;
+				content += `  /// ${item.description}\n`;
 				content += `  ${item.type == 'dynamic' ? 'dynamic' : `${item.type}?`} ${item.name};\n\n`;
 				if (item.type == 'List<String>' || item.type == 'List<int>' || item.type == 'List<double>' || item.type == 'List<bool>') {
 					// 提取 'List<>' 中的类型
@@ -163,7 +163,7 @@ function generateDartClass(className: string, dataStructure: Record<string, any>
 					let nestedClassName = `${className}${item.name.charAt(0).toUpperCase() + item.name.slice(1)}`;
 					content += `  ///${item.description}\n`;
 					content += `  ${nestedClassName}? ${item.name};\n\n`;
-					fromJsonContent += `    ${item.name} = json['${item.name}'] is ${item.type} ? ${nestedClassName}.fromJson(json['${item.name}'] ?? {}) : null;\n`;
+					fromJsonContent += `    ${item.name} = json['${item.name}'] is ${item.type} ? ${nestedClassName}.fromJson(json['${item.name}']) : null;\n`;
 					toJsonContent += `    json['${item.name}'] = ${item.name};\n`;
 					nestedClass.push(generateDartClass(nestedClassName, !item.children ? [] : item.children, level + 1));
 				}
@@ -282,61 +282,7 @@ export function activate(context: vscode.ExtensionContext) {
 		}
 	});
 
-	let jsonDisposable = vscode.commands.registerCommand('hello-world-dart-generator.generateJsonFile', async (uri: vscode.Uri) => {
-		if (uri && uri.fsPath && fs.lstatSync(uri.fsPath).isDirectory()) {
-			// Input file name
-			let fileName = await vscode.window.showInputBox({
-				prompt: 'Enter the file name',
-				placeHolder: 'example_data',
-				validateInput: (input) => {
-					if (input.trim() === '') {
-						return 'File name cannot be empty';
-					}
-					return null;
-				}
-			});
-			if (!fileName) {
-				return; // User cancelled the input
-			}
-			if (fileName) {
-				fileName = fileName.endsWith('.json') ? fileName : `${fileName}.json`;
-			}
-			const fullPath = path.join(uri.fsPath, fileName);
-
-			// Read content from clipboard
-			let content = await vscode.env.clipboard.readText();
-
-			if (!content.trim().startsWith('<div') || !content.trim().endsWith('</div>') ||
-				!content.includes('<tbody') || !content.includes('</tbody>')) {
-				content = '// 请从torna复制整个响应参数的div';
-			} else {
-				// Keep only tbody
-				const tbodyStart = content.indexOf('<tbody');
-				const tbodyEnd = content.lastIndexOf('</tbody>') + '</tbody>'.length;
-				content = content.substring(tbodyStart, tbodyEnd);
-
-				// Convert to data structure
-				try {
-					let dataStructure = convertStringToJson(content);
-					// Convert to nested format
-					dataStructure = convertJsonToNestedFormat(dataStructure);
-					content = JSON.stringify(dataStructure, null, 2);
-				} catch (error) {
-					content = '// html转化json失败';
-				}
-			}
-
-			fs.writeFile(fullPath, content, (err) => {
-				if (err) {
-					vscode.window.showErrorMessage('Error creating JSON file: ' + err.message);
-				} else {
-					vscode.window.showInformationMessage(`${fileName} created successfully!`);
-				}
-			});
-		}
-	});
-
-	context.subscriptions.push(disposable, jsonDisposable);
+	context.subscriptions.push(disposable);
 }
 
 // This method is called when your extension is deactivated

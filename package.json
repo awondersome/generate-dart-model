@@ -16,10 +16,6 @@
       {
         "command": "hello-world-dart-generator.generateDartModel",
         "title": "Generate Dart Model"
-      },
-      {
-        "command": "hello-world-dart-generator.generateJsonFile",
-        "title": "Generate JSON File"
       }
     ],
     "menus": {
@@ -27,12 +23,7 @@
         {
           "command": "hello-world-dart-generator.generateDartModel",
           "when": "explorerResourceIsFolder",
-          "group": "myDartGeneratorGroup"
-        },
-        {
-          "when": "explorerResourceIsFolder",
-          "command": "hello-world-dart-generator.generateJsonFile",
-          "group": "myDartGeneratorGroup"
+          "group": "1_create"
         }
       ]
     }
@@ -59,5 +50,9 @@
   },
   "dependencies": {
     "jsdom": "^25.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/awondersome/generate-dart-model.git"
   }
 }
