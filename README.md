@@ -1,71 +1,112 @@
-# generate-dart-model README
+# generate-dart-model
 
-This is the README for your extension "generate-dart-model". After writing up a brief description, we recommend including the following sections.
+从torna复制响应参数表格的html标签生成dart model
 
-## Features
+**html 标签示例**
+```
+<div>
+    <tbody>
+        <tr class="level-0">
+            <td> code </td>
+            <td> string </td>
+            <td> 返回码 </td>
+        </tr>
+        <tr class="level-0">
+            <td> data </td>
+            <td> object </td>
+            <td> 返回的数据结果 </td>
+        </tr>
+        <tr class="level-1">
+            <td> id </td>
+            <td> integer </td>
+            <td> 用户ID </td>
+        </tr>
+        <tr class="level-0">
+            <td> String </td>
+            <td> msg </td>
+            <td> 提示信息 </td>
+        </tr>
+    </tbody>
+</div>
+```
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+**dart model 示例**
+```
+class ResponseModel {
+  /// 返回码
+  final String? code;
 
-For example if there is an image subfolder under your extension project workspace:
+  /// 返回的数据结果
+  final ResponseModelData? code;
 
-\!\[feature X\]\(images/feature-x.png\)
+  /// 提示信息
+  final String? msg;
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+  ResponseModel();
 
-## Requirements
+  ResponseModel.fromJson(Map<String, dynamic> json) {
+    return ResponseModel(
+      code = json['code'] is String ? json['code'] : null;
+      data = json['data'] is Map<String, dynamic> ? ResponseModelData.fromJson(json['data']) : null;
+      msg = json['msg'] is String ? json['msg'] : null;
+    );
+  }
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> json = {};
+    json['code'] = code;
+    json['data'] = data;
+    json['msg'] = msg;
+    return json;
+  }
+}
 
-## Extension Settings
+class ResponseModelData {
+  /// 用户ID
+  final int? id;
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+  ResponseModelData();
 
-For example:
+  ResponseModelData.fromJson(Map<String, dynamic> json) {
+    return ResponseModelData(
+      id = json['id'] is int ? json['id'] : null;
+    );
+  }
 
-This extension contributes the following settings:
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> json = {};
+    json['id'] = id;
+    return json;
+  }
+}
+```
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
 
-## Known Issues
+## 安装
+**1. 选中从vsix文件安装插件**
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+![示例图片](assets/images/usage_1.png)
 
-## Release Notes
+**2. 导入generate-dart-model-0.0.1.vsix**
 
-Users appreciate release notes as you update your extension.
+## 用法
 
-### 1.0.0
+**1. 从torna选中响应参数表格的html标签**
 
-Initial release of ...
+![示例图片](assets/images/usage_1.png)
 
-### 1.0.1
+**2. 复制整个html标签**
 
-Fixed issue #.
+![示例图片](assets/images/usage_2.png)
 
-### 1.1.0
+**3. 右键文件夹选中菜单Generate Dart Model**
 
-Added features X, Y, and Z.
+![示例图片](assets/images/usage_3.png)
 
----
+**4. 输入文件名，使用下划线分开，会自动生成驼峰式类名**
 
-## Following extension guidelines
+![示例图片](assets/images/usage_4.png)
 
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
+**5. 自动将粘贴板复制的html标签转化成dart model**
 
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+![示例图片](assets/images/usage_5.png)
