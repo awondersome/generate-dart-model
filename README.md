@@ -85,7 +85,7 @@ class ResponseModelData {
 ## 安装
 **1. 选中从vsix文件安装插件**
 
-![示例图片](assets/images/usage_1.png)
+![示例图片](assets/images/install_1.png)
 
 **2. 导入generate-dart-model-0.0.1.vsix**
 
