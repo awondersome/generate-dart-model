@@ -29,6 +29,8 @@ function addFromJsonAndToJson(classContent: string, fisrtClassName?: string): st
         classTypes.push(type);
     }
 
+    result = result.replace(/class.*?{/s, `class ${className} {`);
+
     result = result.substring(0, result.lastIndexOf(';'));
     result = result.substring(0, result.lastIndexOf(';') + 1);
 
