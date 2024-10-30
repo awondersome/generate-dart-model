@@ -68,7 +68,7 @@ function addFromJsonAndToJson(classContent: string, fisrtClassName?: string): st
             if (listType === 'dynamic' || listType === 'String' || listType === 'int' || listType === 'double' || listType === 'bool') {
                 result += `        json['${classFields[i]}'] = ${classFields[i]};\n`;
             } else {
-                result += `        json['${classFields[i]}'] = ${classFields[i]}?.map((${classTypes[i]} e) => e.toJson()).toList();\n`;
+                result += `        json['${classFields[i]}'] = ${classFields[i]}?.map((${listType} e) => e.toJson()).toList();\n`;
             }
         } else {
             result += `        json['${classFields[i]}'] = ${classFields[i]};\n`;
