@@ -5,11 +5,11 @@ import * as path from 'path';
 export { generateModelFromApifox };
 
 // 为class增加fromJson和toJson
-function addFromJsonAndToJson(classContent: string): string {
+function addFromJsonAndToJson(classContent: string, fisrtClassName?: string): string {
     let result = classContent;
 
     // 获取类名
-    let className = classContent.substring(classContent.indexOf('class') + 5, classContent.indexOf('{')).trim();
+    let className = fisrtClassName || classContent.substring(classContent.indexOf('class') + 5, classContent.indexOf('{')).trim();
 
     // 获取匹配this. ,字符串
     let classFieldsMatches = classContent.match(/this\..*?,/g) || [];
@@ -110,7 +110,11 @@ async function generateModelFromApifox(uri: vscode.Uri) {
 
             for (let i = 0; i < classList.length; i++) {
                 // 处理class[i]，删除{}的内容，增加fromJson和toJson
-                content += addFromJsonAndToJson(classList[i]);
+                if (i === 0) {
+                    content += addFromJsonAndToJson(classList[i], className);
+                } else {
+                    content += addFromJsonAndToJson(classList[i]);
+                }
             }
         }
 
