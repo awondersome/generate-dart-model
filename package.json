@@ -4,7 +4,7 @@
   "description": "",
   "version": "0.0.1",
   "engines": {
-    "vscode": "^1.93.0"
+    "vscode": "^1.91.1"
   },
   "categories": [
     "Other"
@@ -14,14 +14,23 @@
   "contributes": {
     "commands": [
       {
-        "command": "hello-world-dart-generator.generateDartModel",
-        "title": "Generate Dart Model"
+        "command": "torna-model-generator.generate",
+        "title": "Generate Model From Torna"
+      },
+      {
+        "command": "apifox-model-generator.generate",
+        "title": "Generate Model From Apifox"
       }
     ],
     "menus": {
       "explorer/context": [
         {
-          "command": "hello-world-dart-generator.generateDartModel",
+          "command": "torna-model-generator.generate",
+          "when": "explorerResourceIsFolder",
+          "group": "1_create"
+        },
+        {
+          "command": "apifox-model-generator.generate",
           "when": "explorerResourceIsFolder",
           "group": "1_create"
         }
@@ -40,7 +49,7 @@
     "@types/jsdom": "^21.1.7",
     "@types/mocha": "^10.0.7",
     "@types/node": "20.x",
-    "@types/vscode": "^1.93.0",
+    "@types/vscode": "^1.91.1",
     "@typescript-eslint/eslint-plugin": "^8.3.0",
     "@typescript-eslint/parser": "^8.3.0",
     "@vscode/test-cli": "^0.0.10",

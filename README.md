@@ -1,86 +1,15 @@
 # generate-dart-model
 
-从torna复制响应参数表格的html标签生成dart model
-
-**html 标签示例**
+## 打包
+**1.安装vsce**
 ```
-<div>
-    <tbody>
-        <tr class="level-0">
-            <td> code </td>
-            <td> string </td>
-            <td> 返回码 </td>
-        </tr>
-        <tr class="level-0">
-            <td> data </td>
-            <td> object </td>
-            <td> 返回的数据结果 </td>
-        </tr>
-        <tr class="level-1">
-            <td> id </td>
-            <td> integer </td>
-            <td> 用户ID </td>
-        </tr>
-        <tr class="level-0">
-            <td> String </td>
-            <td> msg </td>
-            <td> 提示信息 </td>
-        </tr>
-    </tbody>
-</div>
+npm install -g @vscode/vsce
 ```
 
-**dart model 示例**
+**2. 使用打包命令**
 ```
-class ResponseModel {
-  /// 返回码
-  final String? code;
-
-  /// 返回的数据结果
-  final ResponseModelData? code;
-
-  /// 提示信息
-  final String? msg;
-
-  ResponseModel();
-
-  ResponseModel.fromJson(Map<String, dynamic> json) {
-    return ResponseModel(
-      code = json['code'] is String ? json['code'] : null;
-      data = json['data'] is Map<String, dynamic> ? ResponseModelData.fromJson(json['data']) : null;
-      msg = json['msg'] is String ? json['msg'] : null;
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> json = {};
-    json['code'] = code;
-    json['data'] = data;
-    json['msg'] = msg;
-    return json;
-  }
-}
-
-class ResponseModelData {
-  /// 用户ID
-  final int? id;
-
-  ResponseModelData();
-
-  ResponseModelData.fromJson(Map<String, dynamic> json) {
-    return ResponseModelData(
-      id = json['id'] is int ? json['id'] : null;
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> json = {};
-    json['id'] = id;
-    return json;
-  }
-}
+vsce package
 ```
-
 
 ## 安装
 **1. 选中从vsix文件安装插件**
@@ -91,6 +20,8 @@ class ResponseModelData {
 
 ## 用法
 
+### 从torna生成
+
 **1. 从torna选中响应参数表格的html标签**
 
 ![示例图片](assets/images/usage_1.png)
@@ -99,7 +30,7 @@ class ResponseModelData {
 
 ![示例图片](assets/images/usage_2.png)
 
-**3. 右键文件夹选中菜单Generate Dart Model**
+**3. 右键文件夹选中菜单Generate Model From Torna**
 
 ![示例图片](assets/images/usage_3.png)
 
@@ -110,3 +41,19 @@ class ResponseModelData {
 **5. 自动将粘贴板复制的html标签转化成dart model**
 
 ![示例图片](assets/images/usage_5.png)
+
+### 从apifox生成
+
+**1. 从apifox选择生成代码**
+
+![示例图片](assets/images/usage_6.png)
+
+**2. 选择复制生成的代码**
+
+![示例图片](assets/images/usage_7.png)
+
+**3. 右键文件夹选中菜单Generate Model From Apifox**
+
+**4. 输入文件名，使用下划线分开，会自动生成驼峰式类名**
+
+**5. 自动将粘贴板复制的html标签转化成dart model**
