@@ -62,7 +62,17 @@ function addFromJsonAndToJson(classContent: string, fisrtClassName?: string): st
     result += `    Map<String, dynamic> toJson() {\n`;
     result += `        final Map<String, dynamic> json = {};\n`;
     for (let i = 0; i < classFields.length; i++) {
-        result += `        json['${classFields[i]}'] = ${classFields[i]};\n`;
+        if (classTypes[i].startsWith('List<')) {
+            // 判断list中的类型
+            let listType = classTypes[i].substring(5, classTypes[i].indexOf('>'));
+            if (listType === 'dynamic' || listType === 'String' || listType === 'int' || listType === 'double' || listType === 'bool') {
+                result += `        json['${classFields[i]}'] = ${classFields[i]};\n`;
+            } else {
+                result += `        json['${classFields[i]}'] = ${classFields[i]}?.map((${classTypes[i]} e) => e.toJson()).toList();\n`;
+            }
+        } else {
+            result += `        json['${classFields[i]}'] = ${classFields[i]};\n`;
+        }
     }
     result += `        return json;\n`;
     result += `    }\n\n`;
